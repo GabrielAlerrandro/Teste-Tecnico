@@ -7,11 +7,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ptBR } from "date-fns/locale"
 
-export function DatePicker({ value, onChange }) {
+export function DatePicker({ value, onChange, resetDate }) {
   const [date, setDate] = useState<Date>()
+
+  useEffect(() => {
+    if (resetDate) {
+      setDate(undefined)
+    }
+  }, [resetDate])
 
   return (
     <Popover>

@@ -2,21 +2,32 @@ import { Plus } from "lucide-react"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { dataItem } from "@/interfaces/interfaces"
 import { DatePicker } from "../ui/datepicker"
+import { useState } from "react"
 
 interface handleAddItemProps {
   handleAddItem: (item: dataItem) => void
 }
 
 const Form = ({ handleAddItem }: handleAddItemProps) => {
+  const [resetDate, setResetDate] = useState(false)
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<dataItem>()
 
   const onSubmit: SubmitHandler<dataItem> = async (data) => {
     handleAddItem(data)
+    reset({
+      date: undefined,
+      note: "",
+      typeTransaction: "Receita",
+      value: NaN,
+    })
+    setResetDate(true)
+    setTimeout(() => setResetDate(false), 0)
   }
 
   return (
@@ -53,7 +64,11 @@ const Form = ({ handleAddItem }: handleAddItemProps) => {
             rules={{ required: "Data é obrigatória" }}
             control={control}
             render={({ field }) => (
-              <DatePicker value={field.value} onChange={field.onChange} />
+              <DatePicker
+                value={field.value}
+                onChange={field.onChange}
+                resetDate={resetDate}
+              />
             )}
           />
           {errors.date && (
