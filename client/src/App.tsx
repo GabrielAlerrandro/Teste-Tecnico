@@ -1,4 +1,4 @@
-import "./App.css"
+import "./index.css"
 import useTransactions from "./hooks/useFetchTransactions"
 import Form from "./components/Form"
 import SectionChart from "./components/SectionChart"
